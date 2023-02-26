@@ -1,0 +1,21 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.form__wrapper {
+  display: flex;
+  margin-bottom: 5px;
+}
+
+.form__wrapper div {
+  flex: 1;
+}
+
+.row__delete {
+  cursor: pointer;
+}
+
+.row__add {
+  margin-bottom: 10px;
+}

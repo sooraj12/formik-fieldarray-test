@@ -1,26 +1,56 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import * as React from "react";
+import { Formik, FieldArray, FieldMetaProps } from "formik";
+import { Row } from "./Row";
 
-function App() {
+import "./styles.css";
+
+interface FormValues {
+  fields: Field[];
+}
+
+export interface Field {
+  id: number;
+  name: string;
+  number: string;
+}
+
+export default function App() {
+  const values: FormValues = {
+    fields: [],
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Formik initialValues={values} onSubmit={() => {}}>
+        {() => (
+          <div>
+            <FieldArray name="fields">
+              {({ push, remove, form: { getFieldMeta } }) => {
+                const { value }: FieldMetaProps<FormValues["fields"]> =
+                  getFieldMeta("fields");
+                return (
+                  <>
+                    <button
+                      type="button"
+                      className="row__add"
+                      onClick={() =>
+                        push({ id: value.length + 1, name: "", number: "" })
+                      }
+                    >
+                      Add Row
+                    </button>
+                    {value.map((val: Field, i: number) => {
+                      return (
+                        <Row key={val.id} row={val} remove={remove} index={i} />
+                      );
+                    })}
+                  </>
+                );
+              }}
+            </FieldArray>
+          </div>
+        )}
+      </Formik>
     </div>
   );
 }
-
-export default App;
